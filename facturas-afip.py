@@ -98,7 +98,8 @@ for i in facturas:
                 worksheet.write(f'H{row}', cliente, tableformat)
                 cuitCliente = spl[spl.index('CUIT: ')+1] if 'CUIT: ' in spl else spl[spl.index('DNI: ')+1]
                 worksheet.write(f'I{row}', cuitCliente, tableformat)
-                total = spl[spl.index('Subtotal: $')-1]
+                total = spl[spl.index('Subtotal: $')-1] if 'FACTURA' in spl[condIva+1] else "-" + spl[spl.index('Subtotal: $')-1]
+                total = float(total.replace(',','.'))
                 worksheet.write(f'J{row}', total, tableformat)
                 i = spl.index(cuit)+1
                 contadoIndex = spl.index('Contado') if 'Contado' in spl else spl.index('Cuenta Corriente') if 'Cuenta Corriente' in spl else spl.index('Otra') if 'Otra' in spl else spl.index('Cheque') if 'Cheque' in spl else spl.index('Tarjeta de Débito') if 'Tarjeta de Débito' in spl else spl.index('Tarjeta de Crédito') if 'Tarjeta de Crédito' in spl else spl.index('Ticket')
